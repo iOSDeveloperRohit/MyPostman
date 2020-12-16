@@ -13,16 +13,48 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        getRequest()
+        
+        
+        
     }
 
+    @IBAction func openClima(_ sender: Any) {
+        openClimaApp()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+    }
+    
+    
+    func openClimaApp() {
+        
+        let alert = UIAlertController(title: "Open Clima!", message: "Do you want to open Clima app?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction.init(title: "Open", style: .default, handler: { (action) in
+            let url = "shamaliclima://"
+            
+            if UIApplication.shared.canOpenURL(URL(string: url)!){
+                UIApplication.shared.open(URL(string: url)!, options: [:]) { (success) in
+                    if success{
+                        print("Opened Clima")
+                    } else{
+                    }
+                }
+            }
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    }
+    
     
     func postRequest() {
         
         var request = URLRequest(url: URL(string: "https://Google.com")!)
         request.timeoutInterval = 10
         request.httpMethod = "POST"
-        let arguments = ["":""]
+        let arguments = ["userName":"Shamali","Password":"******"]
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: arguments, options: [])
         } catch {
